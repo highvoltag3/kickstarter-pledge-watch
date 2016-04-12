@@ -29,6 +29,10 @@ import time
 import urllib2
 import HTMLParser
 import webbrowser
+import Foundation
+import objc
+import AppKit
+import sys
 
 # Parse the pledge HTML page
 #
@@ -47,6 +51,20 @@ import webbrowser
 #
 # The 'rewards' dictionary uses the reward value as a key, and
 # (status, remaining) as the value.
+NSUserNotification = objc.lookUpClass('NSUserNotification')
+NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
+
+def notify(title, subtitle, info_text, delay=0, sound=False, userInfo={}):
+    notification = NSUserNotification.alloc().init()
+    notification.setTitle_(title)
+    notification.setSubtitle_(subtitle)
+    notification.setInformativeText_(info_text)
+    notification.setUserInfo_(userInfo)
+    if sound:
+        notification.setSoundName_("NSUserNotificationDefaultSoundName")
+    notification.setDeliveryDate_(Foundation.NSDate.dateWithTimeInterval_sinceDate_(delay, Foundation.NSDate.date()))
+    NSUserNotificationCenter.defaultUserNotificationCenter().scheduleNotification_(notification)
+
 class KickstarterHTMLParser(HTMLParser.HTMLParser):
     def __init__(self):
         HTMLParser.HTMLParser.__init__(self)
@@ -185,11 +203,13 @@ while True:
             print '%s - Reward available!' % time.strftime('%B %d, %Y %I:%M %p')
             print s[2]
             webbrowser.open_new_tab(url)
+            notify("Reward available!", "Subtitle", "Move that ass!!", sound=True)
             selected = [x for x in selected if x != s]   # Remove the pledge we just found
             if not selected:     # If there are no more pledges to check, then exit
                 time.sleep(10)   # Give the web browser time to open
                 sys.exit(0)
             break
+    print 'Waiting patiently for a pledge to open up.'
     time.sleep(60)
 
     rewards = ks.process(url)

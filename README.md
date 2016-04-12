@@ -1,10 +1,12 @@
-kickstarter-pledge-watch
+kickstarter-pledge-watch *with OSX notification*
 ========================
 
 This Python program notifies you when a locked Kickstarter pledge level
 becomes available.  When the pledge is available, the program opens a
 web browser window to the pledge, allowing you to enter the pledge
 amount and select the new pledge.
+
+You will also get a OSX notification with sound letting you know that an opening for a pledge level has been spotted.
 
 kswatch.py must be run from the command line.  Since this is a Python
 program, you must have Python installed.
@@ -26,6 +28,7 @@ $ ./kswatch.py https://www.kickstarter.com/projects/1300298569/under-the-dog
 
 Select pledge levels:
 
+**Note:** You can select more than one pledge level by separating them with a space example `Select pledge levels: 1 2 3` this will check on pledge level 1, 2 and 3
 
 I believe that this script does not violate the Kickstarter terms of service
 (TOS):
