@@ -209,7 +209,7 @@ while True:
                 time.sleep(10)   # Give the web browser time to open
                 sys.exit(0)
             break
-    print 'Waiting patiently for a pledge to open up.'
+    print 'Waiting patiently for a pledge to open up. {}'.format( time.strftime('%H:%M') )
     time.sleep(60)
 
     rewards = ks.process(url)
